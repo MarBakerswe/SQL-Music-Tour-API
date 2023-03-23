@@ -25,7 +25,7 @@ Band.init({
         allowNull: false,
     },
     genre: {
-        tyep: DataTypes.TEXT,
+        type: DataTypes.TEXT,
         allowNull: false,
     },
     available_start_time: {
