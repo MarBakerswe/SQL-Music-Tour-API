@@ -7,41 +7,39 @@ module.exports = (sequelize, DataTypes) => {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
-     * The models/index file will call this method automatically.
+     * The `models/index` file will call this method automatically.
      */
     static associate(models) {
       // define association here
     }
   }
-
-Band.init({
+  Band.init({
     band_id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
-        autoIncrement: true,
+        autoIncrement: true
     },
     name: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: false
     },
     genre: {
         type: DataTypes.TEXT,
-        allowNull: false,
+        allowNull: false
     },
     available_start_time: {
         type: DataTypes.DATE,
-        allowNull: false,
+        allowNull: false
     },
     end_time: {
         type: DataTypes.DATE,
-        allowNull: false,
+        allowNull: false
     }
-}, { 
-    sequelize, 
+  }, {
+    sequelize,
     modelName: 'Band',
     tableName: 'band',
     timestamps: false
-});
-return Band;
+  });
+  return Band;
 };
-
