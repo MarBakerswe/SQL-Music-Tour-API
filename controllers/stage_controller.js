@@ -1,16 +1,18 @@
 // DEPENDENCIES
 const stage = require('express').Router()
 const db = require('../models')
-const { Stage } = db 
+const { Stage, Event, Stage_Event } = db 
 const { Op } = require('sequelize')
 
 // FIND ALL STAGES
 stage.get('/', async (req, res) => {
     try {
         const foundStages = await Stage.findAll({
+            attributes: ['name', 'capacity'],
             where: {
                 name: { [Op.like]: `%${req.query.name ? req.query.name : ''}%` }
-            }
+            },
+            order: [['name', 'ASC']]
         })
         res.status(200).json(foundStages)
     } catch (error) {
@@ -19,10 +21,21 @@ stage.get('/', async (req, res) => {
 })
 
 // FIND A SPECIFIC STAGE
-stage.get('/:id', async (req, res) => {
+stage.get('/:name', async (req, res) => {
     try {
         const foundStage = await Stage.findOne({
-            where: { stage_id: req.params.id }
+            where: { name: req.params.name },
+            include: {
+                model: Event,
+                as: 'events',
+                through: { attributes: [] }
+            },
+            order: [
+                [{
+                    model: Event,
+                    as: 'events'
+                }, 'date', 'DESC']
+            ]
         })
         res.status(200).json(foundStage)
     } catch (error) {
